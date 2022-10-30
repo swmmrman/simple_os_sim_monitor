@@ -4,14 +4,14 @@ use std::path::Path;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-struct sim_config {
+struct SimConfig {
     protocol: String,
     server_name: String,
     port: u32,
     end_point: String,
 }
 
-impl sim_config {
+impl SimConfig {
     pub fn url(&self) -> String {
         format!("{}://{}:{}/{}", self.protocol, self.server_name, self.port, self.end_point)
     }
@@ -24,7 +24,7 @@ fn main() {
         Err(_) => std::process::exit(1),
     };
     let conf_try = toml::from_str(&fc);
-    let conf: sim_config = match conf_try {
+    let conf: SimConfig = match conf_try {
         Ok(conf) => conf,
         Err(e) => {
             println!("{}", e);
