@@ -1,0 +1,5 @@
+[sim]
+protocol = "http"
+server_name = "r3.taggrid.online"
+port = 9100
+end_point = "jsonSimStats" #Currently no other values work.
