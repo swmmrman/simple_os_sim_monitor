@@ -1,5 +1,6 @@
 use toml;
 use std::fs;
+use std::io::Write;
 use std::path::Path;
 use serde::Deserialize;
 use reqwest;
@@ -18,7 +19,7 @@ struct SimConfig {
 struct SimStats {
     Dilatn:                         String,
     SimFPS:                         String,
-    PhyFPS:                        String,
+    PhyFPS:                         String,
     AgntUp:                         String,
     RootAg:                         String,
     ChldAg:                         String,
@@ -80,7 +81,6 @@ fn main() {
             std::process::exit(1);
         }
     };
-    println!("{:?}", &conf);
     loop {
         let resp = reqwest::blocking::get(conf.url());
         let resp_text = match resp {
@@ -104,7 +104,8 @@ fn main() {
                 continue
             }
         };
-        println!("{:#?}",sim_stats);
+        print!("\rPhysics FPS of {}: {}",sim_stats.RegionName, sim_stats.PhyFPS.parse::<u32>().unwrap());
+        std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
     }
 }
