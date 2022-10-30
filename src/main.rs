@@ -3,6 +3,8 @@ use std::fs;
 use std::path::Path;
 use serde::Deserialize;
 use reqwest;
+use std::thread::sleep;
+use std::time::Duration;
 
 #[derive(Debug, Deserialize)]
 struct SimConfig {
@@ -33,13 +35,16 @@ fn main() {
         }
     };
     println!("{:?}", &conf);
-    let resp = reqwest::blocking::get(conf.url());
-    let resp_text = match resp {
-        Ok(text) => text,
-        Err(e) => {
-            println!("{}", e);
-            std::process::exit(1);
-        }
-    };
-    println!("{:?}",resp_text)
+    loop {
+        let resp = reqwest::blocking::get(conf.url());
+        let resp_text = match resp {
+            Ok(text) => text,
+            Err(e) => {
+                println!("{}", e); 
+                continue;
+            }
+        };
+        println!("{:?}",resp_text.text());
+        sleep(Duration::from_millis(500));
+    }
 }
