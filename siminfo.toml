@@ -1,5 +1,9 @@
 [sim]
+#protocol will likely be http
+#server name can be found under your viewers about while on the region.
+#Port will be after the :
+#end point  will be jsonSimStats.  Currently no other values work.
 protocol = "http"
 server_name = "r3.taggrid.online"
 port = 9100
-end_point = "jsonSimStats" #Currently no other values work.
+end_point = "jsonSimStats" 
