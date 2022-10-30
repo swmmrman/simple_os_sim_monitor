@@ -14,6 +14,52 @@ struct SimConfig {
     end_point: String,
 }
 
+#[derive(Debug, Deserialize)]
+struct SimStats {
+    Dilatn:                         String,
+    SimFPS:                         String,
+    PhyFPS:                        String,
+    AgntUp:                         String,
+    RootAg:                         String,
+    ChldAg:                         String,
+    NPCAg:                          String,
+    Prims:                          String,
+    AtvPrm:                         String,
+    AtvScr:                         String,
+    ScrLPS:                         String,
+    ScrEPS:                         String,
+    PktsIn:                         String,
+    PktOut:                         String,
+    PendDl:                         String,
+    PendUl:                         String,
+    UnackB:                         String,
+    TotlFt:                         String,
+    NetFt:                          String,
+    PhysFt:                         String,
+    OthrFt:                         String,
+    AgntFt:                         String,
+    ImgsFt:                         String,
+    FrameDilatn:                    String,
+    #[serde(rename = "Logging in Users")]
+    Logging_in_Users:               String,
+    GeoPrims:                       String,
+    #[serde(rename = "Mesh Objects")]
+    Mesh_Objects:                   String,
+    #[serde(rename = "Script Engine Thread Count")]
+    Script_Engine_Thread_Count:     String,
+    #[serde(rename = "Util Thread Count")]
+    Util_Thread_Count:              String,
+    #[serde(rename = "System Thread Count")]
+    System_Thread_Count:            String,
+    #[serde(rename = "System Thread Active")]
+    System_Thread_Active:           String,
+    ProcMem:                        String,
+    Memory:                         String,
+    Uptime:                         String,
+    Version:                        String,
+    RegionName:                     String,
+}
+
 impl SimConfig {
     pub fn url(&self) -> String {
         format!("{}://{}:{}/{}", self.protocol, self.server_name, self.port, self.end_point)
@@ -51,7 +97,14 @@ fn main() {
                 continue;
             }
         };
-        println!("{:?}",resp_ct);
+        let sim_stats: SimStats = match serde_json::from_str(&resp_ct) {
+            Ok(stats) => stats,
+            Err(e) => {
+                println!("Error deserailizing: {}", e);
+                continue
+            }
+        };
+        println!("{:#?}",sim_stats);
         sleep(Duration::from_millis(500));
     }
 }
