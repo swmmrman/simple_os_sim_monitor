@@ -2,6 +2,7 @@ use toml;
 use std::fs;
 use std::path::Path;
 use serde::Deserialize;
+use reqwest;
 
 #[derive(Debug, Deserialize)]
 struct SimConfig {
@@ -32,5 +33,13 @@ fn main() {
         }
     };
     println!("{:?}", &conf);
-    println!("{}", conf.url());
+    let resp = reqwest::blocking::get(conf.url());
+    let resp_text = match resp {
+        Ok(text) => text,
+        Err(e) => {
+            println!("{}", e);
+            std::process::exit(1);
+        }
+    };
+    println!("{:?}",resp_text)
 }
