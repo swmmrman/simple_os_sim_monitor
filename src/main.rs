@@ -23,7 +23,6 @@ fn main() {
         Ok(f) => f,
         Err(_) => std::process::exit(1),
     };
-    
     let conf_try = toml::from_str(&fc);
     let conf: sim_config = match conf_try {
         Ok(conf) => conf,
@@ -32,5 +31,6 @@ fn main() {
             std::process::exit(1);
         }
     };
-    println!("{:?}", &fc);
+    println!("{:?}", &conf);
+    println!("{}", conf.url());
 }
