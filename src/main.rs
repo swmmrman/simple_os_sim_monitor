@@ -44,7 +44,14 @@ fn main() {
                 continue;
             }
         };
-        println!("{:?}",resp_text.text());
+        let resp_ct = match resp_text.text() {
+            Ok(r) => r,
+            Err(e) => { 
+                println!("{}", e);
+                continue;
+            }
+        };
+        println!("{:?}",resp_ct);
         sleep(Duration::from_millis(500));
     }
 }
