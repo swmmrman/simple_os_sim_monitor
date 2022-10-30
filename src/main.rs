@@ -18,6 +18,9 @@ impl sim_config {
 
 fn main() {
     let fh = File::open(Path::new("siminfo.toml"));
-    println!("Hello, world!");
-
+    let fc = match fh {
+        Ok(f) => f,
+        Err(_) => std::process::exit(1),
+    };
+    println!("{:?}", &fc);
 }
