@@ -81,6 +81,7 @@ fn main() {
             std::process::exit(1);
         }
     };
+    println!();
     loop {
         let resp = reqwest::blocking::get(conf.url());
         let resp_text = match resp {
@@ -104,7 +105,11 @@ fn main() {
                 continue
             }
         };
-        print!("\rPhysics FPS of {}: {}",sim_stats.RegionName, sim_stats.PhyFPS.parse::<u32>().unwrap());
+        print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
+            sim_stats.RegionName,
+            sim_stats.PhyFPS.parse::<u32>().unwrap(),
+            sim_stats.RootAg,
+        );
         std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
     }
