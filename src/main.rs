@@ -10,6 +10,12 @@ struct sim_config {
     end_point: String,
 }
 
+impl sim_config {
+    pub fn url(&self) -> String {
+        format!("{}://{}:{}/{}", self.protocol, self.server_name, self.port, self.end_point)
+    }
+}
+
 fn main() {
     let fh = File::open(Path::new("siminfo.toml"));
     println!("Hello, world!");
