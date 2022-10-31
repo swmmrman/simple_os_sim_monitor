@@ -23,13 +23,17 @@ impl SimConfig {
 }
 
 fn get_i32(input: String) -> i32 {
-    let length = input.len();
-    let clean = &input[1..length-1];
+    let clean = strip_quotes(input);
     let val = clean.parse::<i32>();
     match val {
         Ok(v) => v,
         Err(_) => -1,
     }
+}
+
+fn strip_quotes(input: String) -> String {
+    let length = input.len();
+    input[1..length-1].to_string()
 }
 
 fn main() {
