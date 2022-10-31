@@ -22,6 +22,16 @@ impl SimConfig {
     }
 }
 
+fn get_u32(input: String) -> i32 {
+    let length = input.len();
+    let clean = &input[1..length-1];
+    let val = clean.parse::<i32>();
+    match val {
+        Ok(v) => v,
+        Err(_) => -1,
+    }
+}
+
 fn main() {
     let fh = fs::read_to_string(Path::new("siminfo.toml"));
     let fc = match fh {
