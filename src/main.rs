@@ -77,10 +77,12 @@ fn main() {
         let fps = get_i32(sim_stats["PhyFPS"].to_string());
         let r_name = strip_quotes(sim_stats["RegionName"].to_string());
         let agents = strip_quotes(sim_stats["RootAg"].to_string());
-        print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
+        print!("\x1b[1A\r{}'s stats:\n Agents\tPrims\tFPS\n{}\t{}\t{}\t{}",
             r_name,
-            fps,
             agents,
+            get_i32(sim_stats["ChldAg"].to_string()),
+            get_i32(sim_stats["Prims"].to_string()),
+            fps,
         );
         std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
