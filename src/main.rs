@@ -60,12 +60,11 @@ fn main() {
                 continue
             }
         };
-        print!("\r{:?}", sim_stats);
-        // print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
-        //     sim_stats.RegionName,
-        //     sim_stats.PhyFPS.parse::<u32>().unwrap(),
-        //     sim_stats.RootAg,
-        // );
+        print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
+            sim_stats["RegionName"],
+            sim_stats["PhyFPS"],
+            sim_stats["RootAg"],
+        );
         std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
     }
