@@ -60,9 +60,12 @@ fn main() {
                 continue
             }
         };
+        let r_fps: String = sim_stats["PhyFPS"].to_string();
+        let len = r_fps.len();
+        let fps = &r_fps[1..len-1].parse::<u32>().unwrap();
         print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
             sim_stats["RegionName"],
-            sim_stats["PhyFPS"],
+            fps,
             sim_stats["RootAg"],
         );
         std::io::stdout().flush().unwrap();
