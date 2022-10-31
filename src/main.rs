@@ -50,7 +50,7 @@ fn main() {
             std::process::exit(1);
         }
     };
-    println!();
+    println!("\n\n");
     loop {
         let resp = reqwest::blocking::get(conf.url());
         let resp_text = match resp {
@@ -77,7 +77,7 @@ fn main() {
         let fps = get_i32(sim_stats["PhyFPS"].to_string());
         let r_name = strip_quotes(sim_stats["RegionName"].to_string());
         let agents = strip_quotes(sim_stats["RootAg"].to_string());
-        print!("\x1b[1A\r{}'s stats:\n Agents\tPrims\tFPS\n{}\t{}\t{}\t{}",
+        print!("\x1b[3A\r{}'s stats:\nAgents\t\tOther Stats\nRoot\tChild\tPrims\tFPS\n{}\t{}\t{}\t{}",
             r_name,
             agents,
             get_i32(sim_stats["ChldAg"].to_string()),
