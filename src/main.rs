@@ -6,6 +6,7 @@ use serde::Deserialize;
 use reqwest;
 use std::thread::sleep;
 use std::time::Duration;
+use serde_json::Value;
 
 #[derive(Debug, Deserialize)]
 struct SimConfig {
@@ -13,52 +14,6 @@ struct SimConfig {
     server_name: String,
     port: u32,
     end_point: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct SimStats {
-    Dilatn:                         String,
-    SimFPS:                         String,
-    PhyFPS:                         String,
-    AgntUp:                         String,
-    RootAg:                         String,
-    ChldAg:                         String,
-    NPCAg:                          String,
-    Prims:                          String,
-    AtvPrm:                         String,
-    AtvScr:                         String,
-    ScrLPS:                         String,
-    ScrEPS:                         String,
-    PktsIn:                         String,
-    PktOut:                         String,
-    PendDl:                         String,
-    PendUl:                         String,
-    UnackB:                         String,
-    TotlFt:                         String,
-    NetFt:                          String,
-    PhysFt:                         String,
-    OthrFt:                         String,
-    AgntFt:                         String,
-    ImgsFt:                         String,
-    FrameDilatn:                    String,
-    #[serde(rename = "Logging in Users")]
-    Logging_in_Users:               String,
-    GeoPrims:                       String,
-    #[serde(rename = "Mesh Objects")]
-    Mesh_Objects:                   String,
-    #[serde(rename = "Script Engine Thread Count")]
-    Script_Engine_Thread_Count:     String,
-    #[serde(rename = "Util Thread Count")]
-    Util_Thread_Count:              String,
-    #[serde(rename = "System Thread Count")]
-    System_Thread_Count:            String,
-    #[serde(rename = "System Thread Active")]
-    System_Thread_Active:           String,
-    ProcMem:                        String,
-    Memory:                         String,
-    Uptime:                         String,
-    Version:                        String,
-    RegionName:                     String,
 }
 
 impl SimConfig {
@@ -98,18 +53,19 @@ fn main() {
                 continue;
             }
         };
-        let sim_stats: SimStats = match serde_json::from_str(&resp_ct) {
+        let sim_stats: Value = match serde_json::from_str(&resp_ct) {
             Ok(stats) => stats,
             Err(e) => {
                 println!("Error deserailizing: {}", e);
                 continue
             }
         };
-        print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
-            sim_stats.RegionName,
-            sim_stats.PhyFPS.parse::<u32>().unwrap(),
-            sim_stats.RootAg,
-        );
+        print!("\r{:?}", sim_stats);
+        // print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
+        //     sim_stats.RegionName,
+        //     sim_stats.PhyFPS.parse::<u32>().unwrap(),
+        //     sim_stats.RootAg,
+        // );
         std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
     }
