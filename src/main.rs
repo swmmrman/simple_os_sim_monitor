@@ -22,7 +22,7 @@ impl SimConfig {
     }
 }
 
-fn get_u32(input: String) -> i32 {
+fn get_i32(input: String) -> i32 {
     let length = input.len();
     let clean = &input[1..length-1];
     let val = clean.parse::<i32>();
@@ -70,9 +70,7 @@ fn main() {
                 continue
             }
         };
-        let r_fps: String = sim_stats["PhyFPS"].to_string();
-        let len = r_fps.len();
-        let fps = &r_fps[1..len-1].parse::<u32>().unwrap();
+        let fps = get_i32(sim_stats["PhyFPS"].to_string());
         print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
             sim_stats["RegionName"],
             fps,
