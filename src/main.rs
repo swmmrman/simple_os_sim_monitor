@@ -75,10 +75,12 @@ fn main() {
             }
         };
         let fps = get_i32(sim_stats["PhyFPS"].to_string());
+        let r_name = strip_quotes(sim_stats["RegionName"].to_string());
+        let agents = strip_quotes(sim_stats["RootAg"].to_string());
         print!("\x1b[1A\rPhysics FPS of {}: {}\nAgents: {}",
-            sim_stats["RegionName"],
+            r_name,
             fps,
-            sim_stats["RootAg"],
+            agents,
         );
         std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
