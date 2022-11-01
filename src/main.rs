@@ -77,13 +77,16 @@ fn main() {
         let fps = get_i32(sim_stats["PhyFPS"].to_string());
         let r_name = strip_quotes(sim_stats["RegionName"].to_string());
         let agents = strip_quotes(sim_stats["RootAg"].to_string());
-        print!("\x1b[3A\r{}'s stats:\nAgents\t\tOther Stats\nRoot\tChild\tPrims\tFPS\tThreads\n{}\t{}\t{}\t{}\t{}",
+        print!(
+            "\x1b[3A\r{}'s stats:\t\tVersion:{}\nAgents\t\tOther Stats\nRoot\tChild\tPrims\tFPS\tThreads\tUnack Bytes\n{}\t{}\t{}\t{}\t{}\t{}",
             r_name,
+            strip_quotes(sim_stats["Version"].to_string()),
             agents,
             get_i32(sim_stats["ChldAg"].to_string()),
             get_i32(sim_stats["Prims"].to_string()),
             fps,
             get_i32(sim_stats["System Thread Count"].to_string()),
+            get_i32(sim_stats["UnackB"].to_string()),
         );
         std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
