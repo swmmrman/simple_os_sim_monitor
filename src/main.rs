@@ -74,20 +74,17 @@ fn main() {
                 continue
             }
         };
-        let fps = get_i32(sim_stats["PhyFPS"].to_string());
-        let r_name = strip_quotes(sim_stats["RegionName"].to_string());
-        let agents = strip_quotes(sim_stats["RootAg"].to_string());
         print!(
 "\x1b[3A\r{}'s stats:\t\tVersion:{}
 Agents      Other Stats
 Root\tChild\tPrims\tFPS\tThreads\t\"Unack Bytes\"
 {}\t{}\t{}\t{}\t{}\t{}",
-            r_name,
+            strip_quotes(sim_stats["RegionName"].to_string()),
             strip_quotes(sim_stats["Version"].to_string()),
-            agents,
+            strip_quotes(sim_stats["RootAg"].to_string()),
             get_i32(sim_stats["ChldAg"].to_string()),
             get_i32(sim_stats["Prims"].to_string()),
-            fps,
+            get_i32(sim_stats["PhyFPS"].to_string()),
             get_i32(sim_stats["System Thread Count"].to_string()),
             get_i32(sim_stats["UnackB"].to_string()),
         );
