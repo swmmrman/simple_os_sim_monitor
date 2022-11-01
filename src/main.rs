@@ -78,7 +78,9 @@ fn main() {
         let r_name = strip_quotes(sim_stats["RegionName"].to_string());
         let agents = strip_quotes(sim_stats["RootAg"].to_string());
         print!(
-            "\x1b[3A\r{}'s stats:\t\tVersion:{}\nAgents\t\tOther Stats\nRoot\tChild\tPrims\tFPS\tThreads\tUnack Bytes\n{}\t{}\t{}\t{}\t{}\t{}",
+"\x1b[3A\r{}'s stats:\t\tVersion:{}
+Agents\t\tOther Stats
+Root\tChild\tPrims\tFPS\tThreads\tUnack Bytes\n{}\t{}\t{}\t{}\t{}\t{}",
             r_name,
             strip_quotes(sim_stats["Version"].to_string()),
             agents,
