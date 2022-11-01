@@ -2,26 +2,13 @@ use toml;
 use std::fs;
 use std::io::Write;
 use std::path::Path;
-use serde::Deserialize;
 use reqwest;
 use std::thread::sleep;
 use std::time::Duration;
 use serde_json::Value;
-use simple_os_sim_monitor::tools;
+use simple_os_sim_monitor::{tools,config};
 
-#[derive(Debug, Deserialize)]
-struct SimConfig {
-    protocol: String,
-    server_name: String,
-    port: u32,
-    end_point: String,
-}
 
-impl SimConfig {
-    pub fn url(&self) -> String {
-        format!("{}://{}:{}/{}", self.protocol, self.server_name, self.port, self.end_point)
-    }
-}
 
 fn main() {
     let fh = fs::read_to_string(Path::new("siminfo.toml"));
@@ -30,7 +17,7 @@ fn main() {
         Err(_) => std::process::exit(1),
     };
     let conf_try = toml::from_str(&fc);
-    let conf: SimConfig = match conf_try {
+    let conf: config::SimConfig = match conf_try {
         Ok(conf) => conf,
         Err(e) => {
             println!("{}", e);
