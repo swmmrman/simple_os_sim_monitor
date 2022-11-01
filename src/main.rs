@@ -63,9 +63,9 @@ fn main() {
         };
         print!(
 "\x1b[3A\r{}'s stats:\t\tVersion:{}
-Agents      Other Stats
-Root\tChild\tPrims\tFPS\tThreads\t\"Unack Bytes\"
-{}\t{}\t{}\t{}\t{}\t{}",
+\x1b[KAgents      Other Stats
+\x1b[KRoot\tChild\tPrims\tFPS\tThreads\t\"Unack Bytes\"
+\x1b[K{}\t{}\t{}\t{}\t{}\t{}",
             tools::strip_quotes(sim_stats["RegionName"].to_string()),
             tools::strip_quotes(sim_stats["Version"].to_string()),
             tools::strip_quotes(sim_stats["RootAg"].to_string()),
