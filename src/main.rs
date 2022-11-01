@@ -7,6 +7,7 @@ use reqwest;
 use std::thread::sleep;
 use std::time::Duration;
 use serde_json::Value;
+use simple_os_sim_monitor::tools;
 
 #[derive(Debug, Deserialize)]
 struct SimConfig {
@@ -20,20 +21,6 @@ impl SimConfig {
     pub fn url(&self) -> String {
         format!("{}://{}:{}/{}", self.protocol, self.server_name, self.port, self.end_point)
     }
-}
-
-fn get_i32(input: String) -> i32 {
-    let clean = strip_quotes(input);
-    let val = clean.parse::<i32>();
-    match val {
-        Ok(v) => v,
-        Err(_) => -255,
-    }
-}
-
-fn strip_quotes(input: String) -> String {
-    let length = input.len();
-    input[1..length-1].to_string()
 }
 
 fn main() {
@@ -79,14 +66,14 @@ fn main() {
 Agents      Other Stats
 Root\tChild\tPrims\tFPS\tThreads\t\"Unack Bytes\"
 {}\t{}\t{}\t{}\t{}\t{}",
-            strip_quotes(sim_stats["RegionName"].to_string()),
-            strip_quotes(sim_stats["Version"].to_string()),
-            strip_quotes(sim_stats["RootAg"].to_string()),
-            get_i32(sim_stats["ChldAg"].to_string()),
-            get_i32(sim_stats["Prims"].to_string()),
-            get_i32(sim_stats["PhyFPS"].to_string()),
-            get_i32(sim_stats["System Thread Count"].to_string()),
-            get_i32(sim_stats["UnackB"].to_string()),
+            tools::strip_quotes(sim_stats["RegionName"].to_string()),
+            tools::strip_quotes(sim_stats["Version"].to_string()),
+            tools::strip_quotes(sim_stats["RootAg"].to_string()),
+            tools::get_i32(sim_stats["ChldAg"].to_string()),
+            tools::get_i32(sim_stats["Prims"].to_string()),
+            tools::get_i32(sim_stats["PhyFPS"].to_string()),
+            tools::get_i32(sim_stats["System Thread Count"].to_string()),
+            tools::get_i32(sim_stats["UnackB"].to_string()),
         );
         std::io::stdout().flush().unwrap();
         sleep(Duration::from_millis(500));
