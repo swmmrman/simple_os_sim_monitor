@@ -2,10 +2,8 @@ use toml;
 use std::fs;
 use std::io::Write;
 use std::path::Path;
-use reqwest;
 use std::thread::sleep;
 use std::time::Duration;
-use serde_json::Value;
 use simple_os_sim_monitor::{tools,config};
 
 
@@ -26,27 +24,9 @@ fn main() {
     };
     println!("\n\n");
     loop {
-        let resp = reqwest::blocking::get(conf.url());
-        let resp_text = match resp {
-            Ok(text) => text,
-            Err(e) => {
-                println!("{}", e); 
-                continue;
-            }
-        };
-        let resp_ct = match resp_text.text() {
-            Ok(r) => r,
-            Err(e) => { 
-                println!("{}", e);
-                continue;
-            }
-        };
-        let sim_stats: Value = match serde_json::from_str(&resp_ct) {
-            Ok(stats) => stats,
-            Err(e) => {
-                println!("Error deserailizing: {}", e);
-                continue
-            }
+        let sim_stats = match tools::get_stats(&conf) {
+            Some(s) => s,
+            None => continue
         };
         print!(
 "\x1b[3A\r{}'s stats:\t\tVersion:{}
