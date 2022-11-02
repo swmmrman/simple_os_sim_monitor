@@ -5,6 +5,8 @@ use std::path::Path;
 use std::thread::sleep;
 use std::time::Duration;
 use simple_os_sim_monitor::{tools,config};
+use reqwest;
+use serde_json;
 
 
 
@@ -24,10 +26,10 @@ fn main() {
     };
     println!("\n\n");
     loop {
-        let sim_stats = match tools::get_stats(&conf) {
-            Some(s) => s,
-            None => continue
-        };
+        let req_client = reqwest::blocking::Client::new();
+        let res = req_client.get(conf.url()).send().unwrap();
+        let sim_json = res.text().unwrap();
+        let sim_stats: serde_json::Value = serde_json::from_str(&sim_json).unwrap();
         print!(
 "\x1b[3A\r{}'s stats:\t\tVersion:{}
 \x1b[KAgents      Other Stats
